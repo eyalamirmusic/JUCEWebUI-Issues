@@ -19,7 +19,7 @@ struct Editor : juce::AudioProcessorEditor
         : AudioProcessorEditor(processorToUse)
     {
         addAndMakeVisible(browser);
-        browser.goToURL("https://www.google.com");
+        browser.goToURL("https://2021.fanzone36.com/en/home");
         setResizable(true, true);
         setSize(400, 400);
     }
