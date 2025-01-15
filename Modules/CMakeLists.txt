@@ -1,0 +1,3 @@
+juce_add_modules(
+        shared_plugin_helpers)
+
