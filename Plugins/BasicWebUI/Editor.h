@@ -1,7 +1,6 @@
 #pragma once
 
 #include <juce_gui_extra/juce_gui_extra.h>
-#include <juce_audio_utils/juce_audio_utils.h>
 #include <BinaryData.h>
 
 using juce::WebBrowserComponent;
@@ -72,11 +71,6 @@ struct WebEditor : WebBrowserComponent
     {
         goToURL(getResourceProviderRoot());
     }
-
-    // void pageFinishedLoading(const juce::String& url) override
-    // {
-    //     evaluateJavascript(getJS());
-    // }
 };
 
 struct Editor : juce::AudioProcessorEditor
