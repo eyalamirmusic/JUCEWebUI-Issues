@@ -18,8 +18,7 @@ juce_add_plugin("${BaseTargetName}"
         FORMATS AU VST3 Standalone
         PRODUCT_NAME "Minimal Plugin Template")
 
-target_sources(${BaseTargetName} PRIVATE
-        Source/PluginProcessor.cpp)
+target_sources(${BaseTargetName} PRIVATE PluginProcessor.cpp)
 
 target_compile_definitions(${BaseTargetName}
         PUBLIC
