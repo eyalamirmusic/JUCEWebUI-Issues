@@ -39,7 +39,7 @@ static WebBrowserComponent::Resource getWebResource(const juce::String& name,
 
     res.data.resize((size_t) rawResource.size);
     for (int index = 0; index < rawResource.size; ++index)
-        res.data[index] = static_cast<std::byte>(rawResource.data[index]);
+        res.data[(size_t)index] = static_cast<std::byte>(rawResource.data[index]);
 
     res.mimeType = "text/" + type;
 
