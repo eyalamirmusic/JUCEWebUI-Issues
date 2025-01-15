@@ -1,1 +1,2 @@
 add_subdirectory(MinimalPluginTemplate)
+add_subdirectory(BasicWebUI)
