@@ -2,16 +2,82 @@
 
 #include <juce_gui_extra/juce_gui_extra.h>
 #include <juce_audio_utils/juce_audio_utils.h>
+#include <BinaryData.h>
 
 using juce::WebBrowserComponent;
 using Options = WebBrowserComponent::Options;
+
+struct RawData
+{
+    const char* data = nullptr;
+    int size = 0;
+};
+
+static RawData getRawResource(const juce::String& name)
+{
+    using namespace BinaryData;
+
+    for (int index = 0; index < namedResourceListSize; ++index)
+    {
+        if (juce::String(originalFilenames[index]) == name)
+        {
+            RawData data;
+            data.data = getNamedResource(namedResourceList[index], data.size);
+            return data;
+        }
+    }
+
+    return {};
+}
+
+static WebBrowserComponent::Resource getWebResource(const juce::String& name,
+                                                    const juce::String& type)
+{
+    auto rawResource = getRawResource(name);
+
+
+    WebBrowserComponent::Resource res;
+
+    res.data.resize((size_t) rawResource.size);
+    for (int index = 0; index < rawResource.size; ++index)
+        res.data[index] = static_cast<std::byte>(rawResource.data[index]);
+
+    res.mimeType = "text/" + type;
+
+    return res;
+}
+static std::optional<WebBrowserComponent::Resource> getResource(const juce::String& name)
+{
+    if (name == "/")
+        return getWebResource("index.html", "html");
+
+    if (name.contains("js"))
+        return getWebResource("main.js", "javascript");
+
+    return {};
+}
 
 static Options getOptions()
 {
     return Options()
         .withBackend(Options::Backend::webview2)
-        .withNativeIntegrationEnabled();
+        .withNativeIntegrationEnabled()
+        .withResourceProvider(getResource);
 }
+
+struct WebEditor : WebBrowserComponent
+{
+    WebEditor()
+        : WebBrowserComponent(getOptions())
+    {
+        goToURL(getResourceProviderRoot());
+    }
+
+    // void pageFinishedLoading(const juce::String& url) override
+    // {
+    //     evaluateJavascript(getJS());
+    // }
+};
 
 struct Editor : juce::AudioProcessorEditor
 {
@@ -19,11 +85,10 @@ struct Editor : juce::AudioProcessorEditor
         : AudioProcessorEditor(processorToUse)
     {
         addAndMakeVisible(browser);
-        browser.goToURL("https://2021.fanzone36.com/en/home");
         setResizable(true, true);
         setSize(400, 400);
     }
 
     void resized() override { browser.setBounds(getLocalBounds()); }
-    WebBrowserComponent browser {getOptions()};
+    WebEditor browser;
 };

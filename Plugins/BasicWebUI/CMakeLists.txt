@@ -25,10 +25,13 @@ target_compile_definitions(${BaseTargetName}
         JUCE_VST3_CAN_REPLACE_VST2=0
         JUCE_USE_WIN_WEBVIEW2_WITH_STATIC_LINKING=1)
 
+juce_add_binary_data(${BaseTargetName}_Binaries SOURCES JS/index.html JS/main.js)
+
 target_link_libraries(${BaseTargetName} PRIVATE
         shared_plugin_helpers
         juce_audio_utils
         juce_gui_extra
+        ${BaseTargetName}_Binaries
         juce_recommended_config_flags
         juce_recommended_lto_flags
         juce_recommended_warning_flags)
