@@ -41,17 +41,26 @@ static WebBrowserComponent::Resource getWebResource(const juce::String& name,
     for (int index = 0; index < rawResource.size; ++index)
         res.data[(size_t)index] = static_cast<std::byte>(rawResource.data[index]);
 
-    res.mimeType = "text/" + type;
+    res.mimeType = type;
 
     return res;
 }
 static std::optional<WebBrowserComponent::Resource> getResource(const juce::String& name)
 {
-    if (name == "/")
-        return getWebResource("index.html", "html");
 
-    if (name.contains("js"))
-        return getWebResource(name.fromFirstOccurrenceOf("/", false, false), "javascript");
+    if (name == "/")
+        return getWebResource("index.html", "text/html");
+
+    auto eval = name.fromFirstOccurrenceOf("/", false, false);
+
+    if (eval.endsWith("js"))
+        return getWebResource(eval, "text/javascript");
+
+    if (eval.endsWith("json"))
+        return getWebResource(eval, "application/json");
+
+    if (eval.endsWith("png"))
+        return getWebResource(eval, "image/png");
 
     return {};
 }

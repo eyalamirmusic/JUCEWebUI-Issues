@@ -13,7 +13,7 @@ import {
   await app.init({ background: '#1099bb', resizeTo: window });
 
   document.body.appendChild(app.canvas);
-  await Assets.load('https://pixijs.com/assets/spritesheet/fighter.json');
+  await Assets.load('./fighter.json');
   const frames = [];
 
   for (let i = 0; i < 30; i++) {

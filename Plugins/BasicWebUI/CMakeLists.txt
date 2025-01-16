@@ -28,7 +28,9 @@ target_compile_definitions(${BaseTargetName}
 juce_add_binary_data(${BaseTargetName}_Binaries SOURCES
         JS/index.html
         JS/main.js
-        JS/pixi.min.mjs)
+        JS/pixi.min.mjs
+        JS/fighter.json
+        JS/fighter.png)
 
 target_link_libraries(${BaseTargetName} PRIVATE
         shared_plugin_helpers
