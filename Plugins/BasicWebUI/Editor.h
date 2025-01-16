@@ -51,7 +51,7 @@ static std::optional<WebBrowserComponent::Resource> getResource(const juce::Stri
         return getWebResource("index.html", "html");
 
     if (name.contains("js"))
-        return getWebResource("main.js", "javascript");
+        return getWebResource(name.fromFirstOccurrenceOf("/", false, false), "javascript");
 
     return {};
 }

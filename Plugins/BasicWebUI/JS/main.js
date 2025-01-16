@@ -1,9 +1,12 @@
+console.log("Loading...")
+
+
 import {
   AnimatedSprite,
   Application,
   Assets,
   Texture
-} from 'https://cdn.jsdelivr.net/npm/pixi.js@8.6.6/dist/pixi.min.mjs';
+} from './pixi.min.mjs';
 
 (async () => {
   const app = new Application();
