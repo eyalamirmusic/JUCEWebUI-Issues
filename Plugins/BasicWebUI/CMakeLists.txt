@@ -26,11 +26,7 @@ target_compile_definitions(${BaseTargetName}
         JUCE_USE_WIN_WEBVIEW2_WITH_STATIC_LINKING=1)
 
 juce_add_binary_data(${BaseTargetName}_Binaries SOURCES
-        JS/index.html
-        JS/main.js
-        JS/pixi.min.mjs
-        JS/fighter.json
-        JS/fighter.png)
+        JS/index.html)
 
 target_link_libraries(${BaseTargetName} PRIVATE
         shared_plugin_helpers
