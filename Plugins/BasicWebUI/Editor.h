@@ -34,20 +34,19 @@ static WebBrowserComponent::Resource getWebResource(const juce::String& name,
 {
     auto rawResource = getRawResource(name);
 
-
     WebBrowserComponent::Resource res;
 
     res.data.resize((size_t) rawResource.size);
     for (int index = 0; index < rawResource.size; ++index)
-        res.data[(size_t)index] = static_cast<std::byte>(rawResource.data[index]);
+        res.data[(size_t) index] = static_cast<std::byte>(rawResource.data[index]);
 
     res.mimeType = type;
 
     return res;
 }
+
 static std::optional<WebBrowserComponent::Resource> getResource(const juce::String& name)
 {
-
     if (name == "/")
         return getWebResource("index.html", "text/html");
 
@@ -65,12 +64,21 @@ static std::optional<WebBrowserComponent::Resource> getResource(const juce::Stri
     return {};
 }
 
+static Options::WinWebView2 getWinOptions()
+{
+    using juce::File;
+    auto tempDir = File::getSpecialLocation(File::tempDirectory);
+
+    return Options::WinWebView2().withUserDataFolder(tempDir);
+}
+
 static Options getOptions()
 {
     return Options()
         .withBackend(Options::Backend::webview2)
         .withNativeIntegrationEnabled()
-        .withResourceProvider(getResource);
+        .withResourceProvider(getResource)
+        .withWinWebView2Options(getWinOptions());
 }
 
 struct WebEditor : WebBrowserComponent
